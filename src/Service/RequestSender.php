@@ -29,6 +29,13 @@ class RequestSender
         $key = $_ENV['EWATTCH_API_KEY'];
         $userId = $_ENV['EWATTCH_USER_ID'];
 
+        $data = [
+            'dates'             =>  ["now-2d", "now"],
+            'sampling'          =>  ["hour"],
+            'datapoint_uuids'   =>  ["203dc805-23f9-4649-8641-f00c2c740f9b"],
+            'type'              =>  ["TIME_COUNTER"]
+        ];
+
         if ($host && $key && $userId) {
             $ch = curl_init();
 
@@ -62,6 +69,7 @@ class RequestSender
                     $headers[] = 'APIKEY: '.$key;
                     $headers[] = 'USERID: '.$userId;
                     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
                 break;
             }
 
