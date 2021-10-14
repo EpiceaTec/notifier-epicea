@@ -30,9 +30,13 @@ class FetchStructure extends Command
 
         $output->writeln('<info>Start fetching data...</info>');
 
+        $this->_oLogger->info('Fetching data from a structure');
+
         $response = $this->_oRequestSender->fetchData('/structure?uuid=d513b7d3-3736-4967-b302-e1eac4d541cd');
 
         $output->writeln(print_r($response, true));
+
+        $this->_oLogger->info('Data fetched :' . json_encode($response));
 
         return Command::SUCCESS;
     }

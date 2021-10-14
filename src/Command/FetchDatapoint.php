@@ -42,7 +42,7 @@ class FetchDatapoint extends Command
 
         $output->writeln(print_r($response, true));
 
-        $this->_oLogger->info('Data fetched :'.$response);
+        $this->_oLogger->info('Data fetched :' . json_encode($response));
 
         $this->_oMachineManager->create($response[0]['name'], $response[0]['uuid'], $response[0]['structure_uuid'], $response[0]['gateway_uuid'], $response[0]['type'], $response[0]['sampling'], true);
 
