@@ -13,14 +13,11 @@ class RequestSender
         $this->_oLogger = $oLogger;
     }
 
-    public function fetchData()
+    public function fetchData($uri)
     {
-        $response = self::_callUrl('/gateway?uuid=e25bd388-cdd3-4d16-bd96-ca2575abd446', [
+        $response = self::_callUrl($uri, [
             
         ]);
-
-        /*$this->_oLogger->info('Affichage de la réponse');
-        $this->_oLogger->info(json_encode($response));*/
 
         return $response;
     }
@@ -41,18 +38,46 @@ class RequestSender
 
             $headers = [];
 
-            if($data) {
-                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            switch ($uri) {
+                case '/organisation':
+                    $headers[] = 'Content-Type: application/json';
+                    $headers[] = 'APIKEY: '.$key;
+                    $headers[] = 'USERID: '.$userId;
+                    curl_setopt($ch, CURLOPT_HEADER, $headers);
+                break;
+                case '/structure?uuid=d513b7d3-3736-4967-b302-e1eac4d541cd':
+                    $headers[] = 'Content-Type: application/json';
+                    $headers[] = 'APIKEY: '.$key;
+                    $headers[] = 'USERID: '.$userId;
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                break;
+                case '/gateway?uuid=e25bd388-cdd3-4d16-bd96-ca2575abd446':
+                    $headers[] = 'Content-Type: application/json';
+                    $headers[] = 'APIKEY: '.$key;
+                    $headers[] = 'USERID: '.$userId;
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                break;
+                case '/datafetch?':
+                    $headers[] = 'Content-Type: application/json';
+                    $headers[] = 'APIKEY: '.$key;
+                    $headers[] = 'USERID: '.$userId;
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                break;
+            }
+
+            /*if ($uri == '/organisation') {
+                //curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
                 $headers[] = 'Content-Type: application/json';
                 $headers[] = 'APIKEY: '.$key;
                 $headers[] = 'USERID: '.$userId;
                 curl_setopt($ch, CURLOPT_HEADER, $headers);
-            } else {
+            } 
+            elseif ($uri == '/structure?uuid=d513b7d3-3736-4967-b302-e1eac4d541cd') {
                 $headers[] = 'Content-Type: application/json';
                 $headers[] = 'APIKEY: '.$key;
                 $headers[] = 'USERID: '.$userId;
                 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            }
+            }*/
 
             $response = json_decode(curl_exec($ch), true);
 

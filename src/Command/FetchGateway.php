@@ -7,9 +7,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class FetchOrganisation extends Command
+class FetchGateway extends Command
 {
-    protected static $defaultName = 'app:fetch-orga';
+    protected static $defaultName = 'app:fetch-gateway';
 
     private $_oRequestSender;
 
@@ -30,7 +30,7 @@ class FetchOrganisation extends Command
 
         $output->writeln('<info>Start fetching data...</info>');
 
-        $response = $this->_oRequestSender->fetchData('/organisation');
+        $response = $this->_oRequestSender->fetchData('/gateway?uuid=e25bd388-cdd3-4d16-bd96-ca2575abd446');
 
         $output->writeln(print_r($response, true));
 
