@@ -73,20 +73,6 @@ class RequestSender
                 break;
             }
 
-            /*if ($uri == '/organisation') {
-                //curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-                $headers[] = 'Content-Type: application/json';
-                $headers[] = 'APIKEY: '.$key;
-                $headers[] = 'USERID: '.$userId;
-                curl_setopt($ch, CURLOPT_HEADER, $headers);
-            } 
-            elseif ($uri == '/structure?uuid=d513b7d3-3736-4967-b302-e1eac4d541cd') {
-                $headers[] = 'Content-Type: application/json';
-                $headers[] = 'APIKEY: '.$key;
-                $headers[] = 'USERID: '.$userId;
-                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            }*/
-
             $response = json_decode(curl_exec($ch), true);
 
             curl_close($ch);
