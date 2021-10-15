@@ -21,5 +21,15 @@ services:
             - '../src/Kernel.php'
             - '../src/Tests/'
 
+    App\Manager\Manager:
+        abstract: true
+        calls:
+            - [ setEntityManager, [ '@doctrine.orm.entity_manager' ] ]
+            
+    App\Manager\:
+        resource: '../src/Manager/*'
+        exclude: '../src/Manager/Manager.php'
+        parent: App\Manager\Manager
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
