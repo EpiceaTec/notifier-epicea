@@ -30,10 +30,10 @@ class RequestSender
         $userId = $_ENV['EWATTCH_USER_ID'];
 
         $data = [
-            'dates'             =>  ["now-2d", "now"],
-            'sampling'          =>  ["hour"],
-            'datapoint_uuids'   =>  ["203dc805-23f9-4649-8641-f00c2c740f9b"],
-            'type'              =>  ["TIME_COUNTER"]
+            'dates'             =>  ["now-1w", "now"],
+            'sampling'          =>  ["day"],
+            'datapoint_uuids'   =>  ["92b55202-49bb-43ac-b300-c9b5addd0689"],
+            'type'              =>  ["PULSE"]
         ];
 
         if ($host && $key && $userId) {
@@ -72,20 +72,6 @@ class RequestSender
                     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
                 break;
             }
-
-            /*if ($uri == '/organisation') {
-                //curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-                $headers[] = 'Content-Type: application/json';
-                $headers[] = 'APIKEY: '.$key;
-                $headers[] = 'USERID: '.$userId;
-                curl_setopt($ch, CURLOPT_HEADER, $headers);
-            } 
-            elseif ($uri == '/structure?uuid=d513b7d3-3736-4967-b302-e1eac4d541cd') {
-                $headers[] = 'Content-Type: application/json';
-                $headers[] = 'APIKEY: '.$key;
-                $headers[] = 'USERID: '.$userId;
-                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            }*/
 
             $response = json_decode(curl_exec($ch), true);
 

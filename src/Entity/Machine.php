@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MachineRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -46,6 +48,16 @@ class Machine
      * @ORM\Column(type="string", length=255)
      */
     private $sampling;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Releve::class, mappedBy="machine")
+     */
+    private $releve;
+
+    public function __construct()
+    {
+        $this->releve = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +132,36 @@ class Machine
     public function setSampling(string $sampling): self
     {
         $this->sampling = $sampling;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Releve[]
+     */
+    public function getReleve(): Collection
+    {
+        return $this->releve;
+    }
+
+    public function addReleve(Releve $releve): self
+    {
+        if (!$this->releve->contains($releve)) {
+            $this->releve[] = $releve;
+            $releve->setMachine($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReleve(Releve $releve): self
+    {
+        if ($this->releve->removeElement($releve)) {
+            // set the owning side to null (unless already changed)
+            if ($releve->getMachine() === $this) {
+                $releve->setMachine(null);
+            }
+        }
 
         return $this;
     }
