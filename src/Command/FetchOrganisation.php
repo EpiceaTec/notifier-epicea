@@ -30,9 +30,13 @@ class FetchOrganisation extends Command
 
         $output->writeln('<info>Start fetching data...</info>');
 
+        $this->_oLogger->info('Fetching data from an organisation');
+
         $response = $this->_oRequestSender->fetchData('/organisation');
 
         $output->writeln(print_r($response, true));
+        
+        $this->_oLogger->info('Data fetched :' . json_encode($response));
 
         return Command::SUCCESS;
     }

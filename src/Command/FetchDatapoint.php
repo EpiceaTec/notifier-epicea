@@ -52,6 +52,7 @@ class FetchDatapoint extends Command
             $output->writeln($oResponse);
         }
 
+
         //$output->writeln(print_r($response, true));
 
         $this->_oLogger->info('Data fetched :' . json_encode($response));
