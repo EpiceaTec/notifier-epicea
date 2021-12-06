@@ -9,9 +9,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class FetchDatapoint extends Command
+class FetchDatapointWithout extends Command
 {
-    protected static $defaultName = 'app:fetch-data';
+    protected static $defaultName = 'app:fetch-data-without';
 
     private $_oRequestSender;
     private $_oSendInfo;
@@ -49,9 +49,6 @@ class FetchDatapoint extends Command
 
 
         $this->_oLogger->info('Data fetched :' . json_encode($response));
-
-        $conn = $this->_oSendInfo->sendInfo(end($response));
-
         
 
         return Command::SUCCESS;
