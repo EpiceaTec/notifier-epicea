@@ -30,9 +30,9 @@ class RequestSender
         $userId = $_ENV['EWATTCH_USER_ID'];
 
         $data = [
-            'dates'             =>  ["now-1w", "now"],
-            'sampling'          =>  ["day"],
-            'datapoint_uuids'   =>  ["92b55202-49bb-43ac-b300-c9b5addd0689"],
+            'dates'             =>  ["now-1h", "now"],
+            'sampling'          =>  ["live"],
+            'datapoint_uuids'   =>  ["87903d15-8ffb-4b4d-b356-e0e20665c65d"],
             'type'              =>  ["PULSE"]
         ];
 
