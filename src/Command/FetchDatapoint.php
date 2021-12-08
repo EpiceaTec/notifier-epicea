@@ -6,6 +6,7 @@ use Psr\Log\LoggerInterface;
 use App\Service\RequestSender;
 use App\Service\SendInfo;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -28,7 +29,8 @@ class FetchDatapoint extends Command
 
     protected function configure(): void
     {
-        
+       $this
+            ->addArgument('uuid', InputArgument::OPTIONAL, 'Uuid to send request'); 
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -38,20 +40,33 @@ class FetchDatapoint extends Command
 
         $this->_oLogger->info('Fetching data from a datapoint');
 
-        $response = $this->_oRequestSender->fetchData('/datafetch?');
+        $uuid = $input->getArgument('uuid');
 
-        $response = $response[0]['series'];
+        if(empty($uuid)) {
+            $output->writeln('<info>Fetch S1 data</info>');
 
-        //$output->writeln(print_r($response, true));
+            $response = $this->_oRequestSender->fetchData('/datafetch?');
 
-        $output->writeln(end($response)[0]);
-        $output->writeln(end($response)[1]);
+            $response = $response[0]['series'];
 
+            $output->writeln(end($response)[0]);
+            $output->writeln(end($response)[1]);
+        
+            $conn = $this->_oSendInfo->sendInfo(end($response));
+        } else {
+            $output->writeln('<info>Fetch S1 state data</info>');
+
+            $response = $this->_oRequestSender->fetchData('/datafetch?', $uuid);
+
+            $response = $response[0]['series'];
+
+            $output->writeln(end($response)[0]);
+            $output->writeln(end($response)[1]);
+
+            $conn = $this->_oSendInfo->sendStateMachine(end($response));
+        }
 
         $this->_oLogger->info('Data fetched :' . json_encode($response));
-
-        $conn = $this->_oSendInfo->sendInfo(end($response));
-
         
 
         return Command::SUCCESS;

@@ -6,16 +6,19 @@ use PDO;
 use PDOException;
 use Psr\Log\LoggerInterface;
 use App\Manager\DataManager;
+use App\Manager\MachineStateManager;
 
 class SendInfo 
 {
     private $_oLogger;
     private $_oDataManager;
+    private $_oMachineStateManager;
 
-    public function __construct(DataManager $oDataManager, LoggerInterface $oLogger)
+    public function __construct(DataManager $oDataManager, LoggerInterface $oLogger, MachineStateManager $oMachineStateManager)
     {
         $this->_oDataManager = $oDataManager;
         $this->_oLogger = $oLogger;
+        $this->_oMachineStateManager = $oMachineStateManager;
     }
     /*public function connectToAzure() {
 
@@ -36,5 +39,10 @@ class SendInfo
     public function sendInfo(array $data) 
     {
         $this->_oDataManager->update($data);
+    }
+
+    public function sendStateMachine(array $data)
+    {
+        $this->_oMachineStateManager->update($data);
     }
 }

@@ -13,29 +13,38 @@ class RequestSender
         $this->_oLogger = $oLogger;
     }
 
-    public function fetchData($uri)
+    public function fetchData($uri,$uid = null)
     {
         $response = self::_callUrl($uri, [
             
-        ]);
+        ],$uid);
 
         return $response;
     }
 
-    private static function _callUrl($uri, $data) {
+    private static function _callUrl($uri, $data, $uid) {
         $response = null;
 
         $host = $_ENV['EWATTCH_URL'];
         $key = $_ENV['EWATTCH_API_KEY'];
         $userId = $_ENV['EWATTCH_USER_ID'];
 
-        $data = [
-            'dates'             =>  ["now-1h", "now"],
-            'sampling'          =>  ["live"],
-            'datapoint_uuids'   =>  ["87903d15-8ffb-4b4d-b356-e0e20665c65d"],
-            'type'              =>  ["PULSE"]
-        ];
-
+        if($uid == null) {
+            $data = [
+                'dates'             =>  ["now-1h", "now"],
+                'sampling'          =>  ["live"],
+                'datapoint_uuids'   =>  ["87903d15-8ffb-4b4d-b356-e0e20665c65d"],
+                'type'              =>  ["PULSE"]
+            ];
+        }else {
+            $data = [
+                'dates'             =>  ["now-1h", "now"],
+                'sampling'          =>  ["live"],
+                'datapoint_uuids'   =>  ["7d1c320d-ee30-448e-906d-d69400009048"],
+                'type'              =>  ["MACHINE_STATE"]
+            ];
+        }
+        
         if ($host && $key && $userId) {
             $ch = curl_init();
 

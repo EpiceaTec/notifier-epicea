@@ -36,9 +36,17 @@ class DataManager extends Manager
         }
 
         $nbMasquesActuel = $oData->getMasquesAttente();
+        $nbMasquesTotal = $oData->getMasquesTotal();
+
+        $oData->setMasquesTotal($nbMasquesTotal + $nbMasques);
+
+        if ($nbMasquesActuel == 1000) {
+            $nbMasquesActuel = 0;
+        } else if ($nbMasquesActuel >= 1000) {
+            $nbMasquesActuel = $nbMasquesActuel - 1000;
+        }
 
         $oData->setMasquesAttente($nbMasquesActuel + $nbMasques);
-        $oData->setMasquesTotal($nbMasquesActuel + $nbMasques);
         $oData->setDernierReleve($dernierReleve);
 
         $this->save($oData, true);
